@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:21:14 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/03/26 18:21:04 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:31:33 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,51 @@ int	ft_atoi(const char *nptr)
 	return (nb);
 }
 
-int	check_forks(t_philo *data)
+int	eat_routine(t_philo *data, int philo_index)
 {
+	pthread_mutex_t	*fork_1;
+	pthread_mutex_t	*fork_2;
+
+	fork_1 = data->forks + philo_index;
+	if (philo_index == data->total_philo_nb - 1)
+		fork_2 = data->forks;
+	else
+		fork_2 = data->forks + (philo_index + 1);
+	if (pthread_mutex_lock(fork_1) == -1)
+        printf("mutex locked !\n");
+	pthread_mutex_lock(fork_2);
+	printf("philo nb %d is eating\n", philo_index);
+	usleep(data->time_to_eat);
+	pthread_mutex_unlock(fork_1);
+	pthread_mutex_unlock(fork_2);
+	return (0);
 }
 
 void	philo_routine(t_philo *data)
 {
+	int	philo_index;
 	int	meals_finished;
 
 	meals_finished = 0;
-	while (meals_finished < data->nb_of_meals)
+	pthread_mutex_lock(data->philo_nb_lock);
+	philo_index = data->philo_nb;
+    printf("philo nb %d is created\n", philo_index);
+	data->philo_nb += 1;
+	pthread_mutex_unlock(data->philo_nb_lock);
+	while (meals_finished != data->nb_of_meals)
 	{
-	}
+        eat_routine(data, philo_index);
+        meals_finished += 1;
+    }	
+	// printf("meals finished = %d\n", meals_finished);
+	// while (meals_finished < data->nb_of_meals)
+	// {,
+	// }
 }
 
-pthread_t	*create_philos(int philos_nb, t_philo **all_data)
+pthread_t	*create_philos(int philos_nb, t_philo *data)
 {
 	pthread_t	*philos_tab;
-	t_philo		*data;
 	int			i;
 	int			error;
 
@@ -128,29 +155,32 @@ int	wait_philos(pthread_t *philos_tab, int philos_nb)
 	return (0);
 }
 
-t_philo 	**create_philo_data_structs(int philos_nb, char **argv,
-		pthread_mutex_t *forks_tab)
+int	init_philo_data(char **argv, pthread_mutex_t *forks_tab, t_philo *data)
 {
-	t_philo **data_structs;
-    t_philo *philo_data;
-    int	i;
+	pthread_mutex_t	*philo_nb_mutex;
 
-    data_structs = malloc(sizeof(t_philo *) * (ft_atoi(argv[0])));
-    if (!data_structs)
-        return (NULL);
+	philo_nb_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!philo_nb_mutex)
+		return (-1);
+	if (pthread_mutex_init(philo_nb_mutex, NULL) == -1)
+		return (-1);
+	data->philo_nb_lock = philo_nb_mutex;
+	data->philo_nb = 0;
 	data->forks = forks_tab;
+	data->total_philo_nb = ft_atoi(argv[0]);
 	data->time_to_die = ft_atoi(argv[1]);
 	data->time_to_eat = ft_atoi(argv[2]);
 	data->time_to_sleep = ft_atoi(argv[3]);
 	data->nb_of_meals = ft_atoi(argv[4]);
+	// add : time to think
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	t_philo			**philos_data;
 	pthread_t		*philos;
 	pthread_mutex_t	*forks;
+	t_philo			data;
 	int				philos_nb;
 
 	if (argc != 6)
@@ -160,12 +190,10 @@ int	main(int argc, char **argv)
 	forks = create_forks(philos_nb);
 	if (!forks)
 		return (-1);
-	philos_data = create_philo_data_structs(argv, forks);
-	philos = create_philos(philos_nb, philos_data);
+	init_philo_data(argv, forks, &data);
+	philos = create_philos(philos_nb, &data);
 	if (!philos)
-	{
 		return (-1);
-	}
 	printf("pthread_join = %d\n", wait_philos(philos, philos_nb));
 	return (0);
 }

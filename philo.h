@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:55:25 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/03/26 17:59:35 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:09:53 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <sys/time.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 typedef struct timeval	t_timeval;
 
@@ -28,6 +29,8 @@ typedef struct time
 typedef struct philo
 {
     pthread_mutex_t     *forks;
+    pthread_mutex_t     *philo_nb_lock;
+    int                 total_philo_nb;
     int                 philo_nb;
 	int					time_to_die;
 	int					time_to_eat;
