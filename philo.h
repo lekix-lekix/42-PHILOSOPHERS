@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:55:25 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/03/27 18:09:53 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:22:46 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ typedef struct time
 typedef struct philo
 {
     pthread_mutex_t     *forks;
-    pthread_mutex_t     *philo_nb_lock;
+    pthread_mutex_t     *philo_count_lock;
+    pthread_mutex_t     *write_lock;
+    t_timeval           starting_time;
     int                 total_philo_nb;
     int                 philo_nb;
 	int					time_to_die;
