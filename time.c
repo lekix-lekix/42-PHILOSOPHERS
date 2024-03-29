@@ -6,7 +6,7 @@ long int	time_elapsed(t_timeval *starting_time)
     t_timeval   curr_time;
 
     gettimeofday(&curr_time, NULL);
-    timer = ((curr_time.tv_sec - starting_time->tv_sec) * 1000) + ((curr_time.tv_usec - starting_time->tv_usec) / 1000);
+    timer = ((curr_time.tv_sec - starting_time->tv_sec) * 1000) + ((curr_time.tv_usec - starting_time->tv_usec) * 0.001);
     return (timer);
 }
 
