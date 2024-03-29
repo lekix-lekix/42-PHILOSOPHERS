@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:21:14 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/03/29 17:44:50 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/03/29 18:05:04 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,7 @@ int	init_philo_data(char **argv, t_mutex *forks_tab, t_philo *data)
 	if (is_even(data->total_philo_nb))
 		data->time_to_think = data->time_to_eat - data->time_to_sleep;
 	else
-		data->time_to_think = data->time_to_eat + data->time_to_sleep;
+		data->time_to_think = 2 * data->time_to_eat - data->time_to_sleep;
 	printf("time to think = %d\n", data->time_to_think);
 	return (0);
 }
