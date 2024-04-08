@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:55:25 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/03/29 14:51:35 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:31:20 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,13 @@ typedef struct philo
 	t_mutex				*forks;
 	t_mutex				*philo_count_lock;
 	t_mutex				*write_lock;
+    t_mutex             *deaths_lock;
+    t_mutex             *f_meals_lock;
+    t_mutex             *nb_of_meals_lock;
+    t_mutex             *end_exec_lock;
 	t_timeval			starting_time;
-    int                 philos_deaths[5];
+    int                 *philo_deaths;
+    int                 *philo_f_meals;
 	int					total_philo_nb;
 	int					philo_nb;
 	int					time_to_die;
@@ -42,6 +47,7 @@ typedef struct philo
 	int					time_to_think;
 	int					nb_of_meals;
     int                 died_philo;
+    int                 end_exec;
 }						t_philo;
 
 #endif
