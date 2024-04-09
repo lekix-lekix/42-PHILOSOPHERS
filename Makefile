@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/08 14:18:04 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/09 15:43:38 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ FLAGS = -Wall -Wextra -Werror -g3
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -g3
+	$(CC) $(FLAGS) -g $(OBJ) -o $(NAME)
 
 bonus : $(BONUS_OBJS)
 	make -C $(PATH_LIBFT)
@@ -39,6 +39,9 @@ bonus : $(BONUS_OBJS)
 
 clean :
 	rm -f *o
+
+san: $(OBJ)
+	$(CC) $(FLAGS) -fsanitize=thread -g $(OBJ) -o $(NAME) 
 
 fclean : clean
 	rm -f $(NAME)

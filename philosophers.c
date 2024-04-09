@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:21:14 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/08 18:34:20 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:17:16 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,35 @@ int	usleep_and_check(t_philo *data, long int *last_meal, int time)
 		usleep(10000);
 		if (!check_time_to_die(last_meal, data->starting_time,
 				data->time_to_die))
+			return (-1); // a changer
+		if (data->end_exec)
 			return (-1);
 		i++;
 	}
 	return (0);
 }
 
+int	death_routine(t_philo *data, t_mutex *fork_1, t_mutex *fork_2,
+		int philo_index)
+{
+	if (data->end_exec)
+		return (-1);
+	if (fork_1)
+		pthread_mutex_unlock(fork_1);
+	if (fork_2)
+		pthread_mutex_unlock(fork_2);
+	pthread_mutex_lock(data->write_lock);
+	printf("%ld %d died\n", get_time_elapsed(&data->starting_time),
+		philo_index);
+	pthread_mutex_unlock(data->write_lock);
+	data->philo_deaths[philo_index] = 1;
+	return (-1);
+}
+
 int	print_fork(t_philo *data, int philo_index)
 {
+	if (data->end_exec)
+		return (0);
 	pthread_mutex_lock(data->write_lock);
 	printf("%ld %d has taken a fork\n", get_time_elapsed(&data->starting_time),
 		philo_index);
@@ -96,6 +117,8 @@ int	print_fork(t_philo *data, int philo_index)
 
 int	sleep_routine(t_philo *data, long int *last_meal, int philo_index)
 {
+	if (data->end_exec)
+		return (0);
 	pthread_mutex_lock(data->write_lock);
 	printf("%ld %d is sleeping\n", get_time_elapsed(&data->starting_time),
 		philo_index);
@@ -106,16 +129,21 @@ int	sleep_routine(t_philo *data, long int *last_meal, int philo_index)
 
 int	think_routine(t_philo *data, long int *last_meal, int philo_index)
 {
+	if (data->end_exec)
+		return (0);
 	pthread_mutex_lock(data->write_lock);
 	printf("%ld %d is thinking\n", get_time_elapsed(&data->starting_time),
 		philo_index);
 	pthread_mutex_unlock(data->write_lock);
-	usleep_and_check(data, last_meal, data->time_to_think);
+	if (usleep_and_check(data, last_meal, data->time_to_think) == -1)
+		return (death_routine(data, NULL, NULL, philo_index));
 	return (0);
 }
 
 int	lock_forks(t_mutex *fork_1, t_mutex *fork_2, t_philo *data, int philo_index)
 {
+	if (data->end_exec)
+		return (0);
 	pthread_mutex_lock(fork_1);
 	print_fork(data, philo_index);
 	pthread_mutex_lock(fork_2);
@@ -123,24 +151,13 @@ int	lock_forks(t_mutex *fork_1, t_mutex *fork_2, t_philo *data, int philo_index)
 	return (0);
 }
 
-int	death_routine(t_philo *data, t_mutex *fork_1, t_mutex *fork_2,
-		int philo_index)
-{
-	pthread_mutex_unlock(fork_1);
-	pthread_mutex_unlock(fork_2);
-	pthread_mutex_lock(data->write_lock);
-	printf("%ld %d died\n", get_time_elapsed(&data->starting_time),
-		philo_index);
-	pthread_mutex_unlock(data->write_lock);
-	data->philo_deaths[philo_index] = 1;
-	return (-1);
-}
-
 int	eat_routine(t_philo *data, long int *last_meal, int philo_index)
 {
 	t_mutex	*fork_1;
 	t_mutex	*fork_2;
 
+	if (data->end_exec)
+		return (0);
 	fork_1 = &data->forks[philo_index];
 	if (philo_index == data->total_philo_nb - 1)
 		fork_2 = &data->forks[0];
@@ -170,11 +187,12 @@ int	philo_routine(t_philo *data)
 	int			max_meals;
 	long int	last_meal;
 
+	// printf("ccccc\n");
 	meals_finished = 0;
 	last_meal = 0;
 	pthread_mutex_lock(data->nb_of_meals_lock);
 	max_meals = data->nb_of_meals;
-	pthread_mutex_unlock;
+	pthread_mutex_unlock(data->nb_of_meals_lock);
 	pthread_mutex_lock(data->philo_count_lock);
 	philo_index = data->philo_nb;
 	pthread_mutex_lock(data->write_lock);
@@ -195,10 +213,6 @@ int	philo_routine(t_philo *data)
 			return (-1);
 		meals_finished += 1;
 	}
-	// printf("meals finished = %d\n", meals_finished);
-	// while (meals_finished < data->nb_of_meals)
-	// {,
-	// }
 }
 
 pthread_t	*create_philos(int philos_nb, t_philo *data)
@@ -288,6 +302,8 @@ int	init_mutexes(t_philo *data)
 		return (-1);
 	if (pthread_mutex_init(end_exec, NULL) == -1)
 		return (-1);
+	if (pthread_mutex_init(deaths, NULL) == -1)
+		return (-1);
 	data->philo_count_lock = philo_nb;
 	data->nb_of_meals_lock = meals_nb;
 	data->f_meals_lock = f_eating;
@@ -319,7 +335,6 @@ int	init_philo_data(int argc, char **argv, t_mutex *forks_tab, t_philo *data)
 		data->time_to_think = 2 * data->time_to_eat - data->time_to_sleep;
 	if (init_mutexes(data) == -1)
 		return (-1);
-	printf("time to think = %d\n", data->time_to_think);
 	return (0);
 }
 
@@ -345,6 +360,19 @@ int	init_tabs(t_philo *data)
 	return (0);
 }
 
+int are_all_philos_fed(t_philo *data)
+{
+    int i;
+
+    i = -1;
+    while (++i < data->total_philo_nb)
+    {
+        if (!data->philo_f_meals[i])
+            return (0);
+    }
+    return (1);
+}
+
 int	monitor_philos(t_philo *data)
 {
 	int	i;
@@ -354,13 +382,17 @@ int	monitor_philos(t_philo *data)
 		i = -1;
 		while (++i < data->total_philo_nb)
 		{
-			pthread_mutex_lock(data->deaths_lock);
 			if (data->philo_deaths[i])
 			{
 				data->end_exec = 1;
 				return (0);
 			}
 		}
+        if (data->nb_of_meals != -1 && are_all_philos_fed(data))
+        {
+            data->end_exec = 1;
+            return (0);
+        }
 	}
 }
 
@@ -385,6 +417,6 @@ int	main(int argc, char **argv)
 	if (!philos)
 		return (-1);
 	monitor_philos(&data);
-	printf("pthread_join = %d\n", wait_philos(philos, philos_nb));
+    wait_philos(philos, data.total_philo_nb);
 	return (0);
 }
