@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/09 15:43:38 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/11 17:05:54 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ BONUS_OBJS = $(SRCS_BONUS:.c=.o)
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -Werror
 
 all : $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:55:25 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/08 18:31:20 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:29:23 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@
 
 typedef struct timeval	t_timeval;
 typedef pthread_mutex_t	t_mutex;
-
-typedef struct mutex_pair
-{
-	t_mutex				*fork_1;
-	t_mutex				*fork_2;
-}						t_mutex_pair;
 
 typedef struct philo
 {
