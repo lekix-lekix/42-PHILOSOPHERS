@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/11 17:05:54 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/12 18:03:53 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,13 @@ NAME = philo
 
 NAME_BONUS = philo_bonus
 
-SRC = ./philosophers.c
+SRC = ./srcs/philosophers.c \
+	./srcs/routines.c \
+	./srcs/routines_bis.c \
+	./srcs/init_data.c \
+	./srcs/checks.c \
+	./srcs/free_destroy.c \
+	./srcs/utils.c
 
 OBJ = $(SRC:.c=.o)
 
