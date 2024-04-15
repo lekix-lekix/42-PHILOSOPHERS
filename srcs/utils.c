@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:39:31 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/12 17:57:20 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:46:59 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 int	is_even(int nb)
 {
 	return (nb % 2 == 0);
+}
+
+int	check_data(t_philo *data, int argc)
+{
+	if (data->total_philo_nb <= 0 || data->time_to_die < 0
+		|| data->time_to_eat < 0 || data->time_to_sleep < 0 || (argc == 6
+			&& data->nb_of_meals <= 0))
+		return (0);
+	return (1);
 }
 
 int	ft_atoi(const char *nptr)
@@ -66,20 +75,6 @@ int	wait_philos(pthread_t *philos_tab, int philos_nb)
 		error = pthread_join(philos_tab[i], NULL);
 		if (error)
 			return (error);
-	}
-	return (0);
-}
-
-int	fill_death_tab(t_philo *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->total_philo_nb)
-	{
-		pthread_mutex_lock(&data->deaths_lock[i]);
-		data->philo_deaths[i] = 1;
-		pthread_mutex_unlock(&data->deaths_lock[i]);
 	}
 	return (0);
 }

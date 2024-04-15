@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/12 18:03:53 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/15 13:54:08 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,13 +15,14 @@ NAME = philo
 
 NAME_BONUS = philo_bonus
 
-SRC = ./srcs/philosophers.c \
+SRC = ./srcs/main.c \
 	./srcs/routines.c \
 	./srcs/routines_bis.c \
 	./srcs/init_data.c \
 	./srcs/checks.c \
 	./srcs/free_destroy.c \
-	./srcs/utils.c
+	./srcs/utils.c \
+	./srcs/monitor_thread.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -34,20 +35,20 @@ FLAGS = -Wall -Wextra -Werror
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(FLAGS) -g $(OBJ) -o $(NAME)
+	$(CC) $(FLAGS) -g3 $(OBJ) -o $(NAME)
 
 bonus : $(BONUS_OBJS)
 	make -C $(PATH_LIBFT)
-	$(CC) $(FLAGS) $(BONUS_OBJS) $(LIBFT) -o $(NAME_BONUS) -g3 
+	$(CC) $(FLAGS) $(BONUS_OBJS) $(LIBFT) -o $(NAME_BONUS) -g3
 
 %.o:%.c
-	$(CC) $(FLAGS) -c $<  -o $@
+	$(CC) $(FLAGS) -c $< -o $@ -g3
 
 clean :
-	rm -f *o
+	rm -f ./srcs/*o
 
 san: $(OBJ)
-	$(CC) $(FLAGS) -fsanitize=thread -g $(OBJ) -o $(NAME) 
+	$(CC) $(FLAGS) -fsanitize=thread -g3 $(OBJ) -o $(NAME) 
 
 fclean : clean
 	rm -f $(NAME)

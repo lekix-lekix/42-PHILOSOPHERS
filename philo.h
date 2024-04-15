@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:55:25 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/12 18:03:40 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:20:27 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,17 @@ typedef struct philo
 	int					time_to_think;
 	int					nb_of_meals;
 	int					died_philo;
-	int					end_exec;
 }						t_philo;
 
 int						philo_routine(t_philo *data);
 int						check_end_exec(t_philo *data, int philo_index);
-int						init_philo_data(int argc, char **argv,
-							t_mutex *forks_tab, t_philo *data);
+int						init_philo_data(int argc, char **argv, t_philo *data);
 int						init_tabs(t_philo *data);
 int						are_all_philos_fed(t_philo *data);
 long int				get_time_elapsed(t_timeval *starting_time);
 int						is_even(int nb);
 int						usleep_and_check(t_philo *data, long int *last_meal,
 							int time, int philo_index);
-int						lock_forks(t_mutex *fork_1, t_mutex *fork_2,
-							t_philo *data, int philo_index);
 int						check_time_to_die(long int *last_meal,
 							t_timeval starting_time, int ttd);
 int						only_one_philo_routine(t_philo *data);
@@ -80,7 +76,16 @@ int						death_routine(t_philo *data, t_mutex *fork_1,
 int						ft_atoi(const char *nptr);
 t_mutex					*create_mutex_tab(int mtx_nb);
 int						free_everything(t_philo *data);
-int						fill_death_tab(t_philo *data);
 int						wait_philos(pthread_t *philos_tab, int philos_nb);
+int						start_meal(t_mutex_pair *forks, t_philo *data,
+							long int *last_meal, int philo_index);
+int						sleep_routine(t_philo *data, long int *last_meal,
+							int philo_index);
+int						think_routine(t_philo *data, long int *last_meal,
+							int philo_index);
+int						monitor_philos(t_philo *data);
+int						ft_free_struct(t_philo *data);
+int						check_data(t_philo *data, int argc);
+int						fill_death_tab(t_philo *data);
 
 #endif
