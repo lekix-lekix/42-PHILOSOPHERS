@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:21:14 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/15 18:30:07 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:33:50 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int argc, char **argv)
 	philos = create_philos(&data);
 	if (!philos)
 	{
-        fill_death_tab(&data);
+		fill_death_tab(&data);
 		free_everything(&data);
 		free(philos);
 		return (-1);

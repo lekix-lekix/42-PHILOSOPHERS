@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:37:31 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/15 17:40:32 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:33:43 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_free_struct(t_philo *data)
 
 int	free_everything(t_philo *data)
 {
-	ft_destroy_mutexes(data);   
+	ft_destroy_mutexes(data);
 	ft_free_struct(data);
 	return (0);
 }

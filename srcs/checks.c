@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:05:58 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/15 13:42:50 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:33:26 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int	check_time_to_die(long int *last_meal, t_timeval starting_time, int ttd)
 int	usleep_and_check(t_philo *data, long int *last_meal, int time,
 		int philo_index)
 {
-	int	i;
-	int	limit;
+	long int	starting_time;
+	int			check_sleep;
 
-	i = 0;
-	limit = time / 10;
-	while (i < limit)
+	starting_time = get_time_elapsed(&data->starting_time);
+	check_sleep = 0;
+	while (get_time_elapsed(&data->starting_time) - starting_time + 10 < time)
 	{
 		usleep(10000);
 		if (!check_time_to_die(last_meal, data->starting_time,
@@ -50,24 +50,29 @@ int	usleep_and_check(t_philo *data, long int *last_meal, int time,
 			return (-1);
 		if (check_end_exec(data, philo_index))
 			return (-1);
-		i++;
+		check_sleep = get_time_elapsed(&data->starting_time) - starting_time;
 	}
+	if (time - check_sleep < time && (time - check_sleep > 0))
+		usleep((time - check_sleep) * 1000);
 	return (0);
 }
 
 int	eat_and_check(t_philo *data, int philo_index)
 {
-	int	i;
-	int	limit;
+	long int	starting_time;
+	int			check_sleep;
 
-	i = 0;
-	limit = data->time_to_eat / 10;
-	while (i < limit)
+	starting_time = get_time_elapsed(&data->starting_time);
+	check_sleep = 0;
+	while (check_sleep + 10 < data->time_to_eat)
 	{
 		usleep(10000);
 		if (check_end_exec(data, philo_index))
-			return (1);
-		i++;
+			return (-1);
+		check_sleep = get_time_elapsed(&data->starting_time) - starting_time;
 	}
+	if (data->time_to_eat - check_sleep < data->time_to_eat && data->time_to_eat
+		- check_sleep > 0)
+		usleep((data->time_to_eat - check_sleep) * 1000);
 	return (0);
 }

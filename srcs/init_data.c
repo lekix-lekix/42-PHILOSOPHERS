@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:03:56 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/15 17:51:05 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:33:11 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,16 @@ int	start_mutexes_bis(t_philo *data)
 	if (pthread_mutex_init(data->write_lock, NULL) == -1)
 	{
 		pthread_mutex_destroy(data->philo_count_lock);
-		if (data->nb_of_meals != -1)
-		{
-			pthread_mutex_destroy(data->nb_of_meals_lock);
-			pthread_mutex_destroy(data->f_meals_lock);
-		}
+		pthread_mutex_destroy(data->nb_of_meals_lock);
+		pthread_mutex_destroy(data->f_meals_lock);
 		return (-1);
 	}
 	if (pthread_mutex_init(data->deaths_lock, NULL) == -1)
 	{
 		pthread_mutex_destroy(data->philo_count_lock);
 		pthread_mutex_destroy(data->write_lock);
-		if (data->nb_of_meals != -1)
-		{
-			pthread_mutex_destroy(data->nb_of_meals_lock);
-			pthread_mutex_destroy(data->f_meals_lock);
-		}
+		pthread_mutex_destroy(data->nb_of_meals_lock);
+		pthread_mutex_destroy(data->f_meals_lock);
 		return (-1);
 	}
 	return (0);
@@ -45,19 +39,16 @@ int	start_mutexes(t_philo *data)
 {
 	if (pthread_mutex_init(data->philo_count_lock, NULL) == -1)
 		return (-1);
-	if (data->nb_of_meals != -1)
+	if (pthread_mutex_init(data->nb_of_meals_lock, NULL) == -1)
 	{
-		if (pthread_mutex_init(data->nb_of_meals_lock, NULL) == -1)
-		{
-			pthread_mutex_destroy(data->philo_count_lock);
-			return (-1);
-		}
-		if (pthread_mutex_init(data->f_meals_lock, NULL) == -1)
-		{
-			pthread_mutex_destroy(data->philo_count_lock);
-			pthread_mutex_destroy(data->nb_of_meals_lock);
-			return (-1);
-		}
+		pthread_mutex_destroy(data->philo_count_lock);
+		return (-1);
+	}
+	if (pthread_mutex_init(data->f_meals_lock, NULL) == -1)
+	{
+		pthread_mutex_destroy(data->philo_count_lock);
+		pthread_mutex_destroy(data->nb_of_meals_lock);
+		return (-1);
 	}
 	if (start_mutexes_bis(data) == -1)
 		return (-1);
