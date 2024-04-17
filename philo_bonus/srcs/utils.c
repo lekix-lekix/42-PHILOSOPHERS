@@ -6,11 +6,11 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:39:31 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/17 16:58:49 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:44:30 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
 int	is_even(int nb)
 {
@@ -19,10 +19,14 @@ int	is_even(int nb)
 
 int	check_data(t_philo *data, int argc)
 {
+    printf("ttd = %d\n", data->time_to_die);
 	if (data->total_philo_nb <= 0 || data->time_to_die < 0
 		|| data->time_to_eat < 0 || data->time_to_sleep < 0 || (argc == 6
 			&& data->nb_of_meals <= 0))
-		return (0);
+        {
+		    printf("coucou\n");
+            return (0);
+        }
 	return (1);
 }
 

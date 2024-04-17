@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:03:56 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/16 16:33:11 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:24:46 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int	init_tabs(t_philo *data)
 
 int	init_philo_data(int argc, char **argv, t_philo *data)
 {
+	if (!check_args(argv))
+		return (-1);
 	data->philo_nb = 0;
 	data->total_philo_nb = ft_atoi(argv[0]);
 	data->time_to_die = ft_atoi(argv[1]);
