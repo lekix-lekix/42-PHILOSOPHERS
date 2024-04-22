@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:55:25 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/18 15:23:45 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:15:16 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/time.h>
 # include <signal.h>
@@ -33,10 +34,17 @@ typedef struct routine_data
 	long int			last_meal;
 }						t_routine_data;
 
+typedef struct sem
+{
+	sem_t				*forks;
+    sem_t               *philo_index;
+    sem_t               *finished_meals;  
+    sem_t               *deaths;
+}                       t_sem;
+
 typedef struct philo
 {
-	sem_t				*sem_forks;
-    sem_t               *sem_philo_index;
+    t_sem               *locks;
 	t_timeval			starting_time;
     int                 *philos_pids;
 	int					philo_f_meals;
