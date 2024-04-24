@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/17 16:00:28 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/24 12:39:14 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ FLAGS = -Wall -Wextra -Werror
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(FLAGS) -g3 $(OBJ) -o $(NAME)
+	make -C ./megalibft/
+	$(CC) $(FLAGS) -g3 $(OBJ) ./megalibft/megalibft.a 	-o $(NAME) -g3
 
 %.o:%.c
 	$(CC) $(FLAGS) -c $< -o $@ -g3

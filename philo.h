@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:55:25 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/17 14:27:23 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:33:27 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int						check_data(t_philo *data, int argc);
 int						fill_death_tab(t_philo *data);
 char					*ft_itoa(int n);
 int						check_args(char **argv);
-int						ft_strlen(char *str);
+int						ft_strlenn(char *str);
 int						is_digit(char c);
 
 #endif

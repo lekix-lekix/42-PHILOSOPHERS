@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:39:31 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/17 17:44:30 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:29:22 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,10 @@ int	is_even(int nb)
 
 int	check_data(t_philo *data, int argc)
 {
-    printf("ttd = %d\n", data->time_to_die);
 	if (data->total_philo_nb <= 0 || data->time_to_die < 0
 		|| data->time_to_eat < 0 || data->time_to_sleep < 0 || (argc == 6
 			&& data->nb_of_meals <= 0))
-        {
-		    printf("coucou\n");
-            return (0);
-        }
+		return (0);
 	return (1);
 }
 
@@ -66,19 +62,4 @@ long int	get_time_elapsed(t_timeval *starting_time)
 	time_elapsed = ((current_time.tv_sec - starting_time->tv_sec) * 1000)
 		+ ((current_time.tv_usec - starting_time->tv_usec) * 0.001);
 	return (time_elapsed);
-}
-
-int	wait_philos(pthread_t *philos_tab, int philos_nb)
-{
-	int	i;
-	int	error;
-
-	i = -1;
-	while (++i < philos_nb)
-	{
-		error = pthread_join(philos_tab[i], NULL);
-		if (error)
-			return (error);
-	}
-	return (0);
 }

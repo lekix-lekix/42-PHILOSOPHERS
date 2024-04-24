@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:20:10 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/17 15:41:36 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:33:27 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	arg_check(char *str)
 
 	if (!str)
 		return (0);
-	arg_len = ft_strlen(str);
+	arg_len = ft_strlenn(str);
 	if (arg_len > 11 || arg_len == 0)
 		return (0);
 	if (!str_digits_check(str))
