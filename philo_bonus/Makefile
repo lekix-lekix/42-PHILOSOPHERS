@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/24 12:39:14 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/25 16:39:35 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,12 @@ SRC = ./srcs/main.c \
 	./srcs/ft_itoa.c \
 	./srcs/args_checking.c \
 	./srcs/utils.c \
-	./srcs/utils_2.c
+	./srcs/utils_2.c \
+	./srcs/monitors.c \
+	./srcs/init_data.c \
+	./srcs/free_destroy.c \
+	./srcs/routines.c \
+	./srcs/routines_bis.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -27,8 +32,7 @@ FLAGS = -Wall -Wextra -Werror
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	make -C ./megalibft/
-	$(CC) $(FLAGS) -g3 $(OBJ) ./megalibft/megalibft.a 	-o $(NAME) -g3
+	$(CC) $(FLAGS) -g3 $(OBJ) -o $(NAME) -g3
 
 %.o:%.c
 	$(CC) $(FLAGS) -c $< -o $@ -g3
