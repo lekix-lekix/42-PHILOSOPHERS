@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/29 12:14:20 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/29 15:37:00 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,6 @@ san: $(OBJ)
 
 fclean : clean
 	rm -f $(NAME)
-	rm -f ./philo_bonus/$(NAME_BONUS)
 	
 re : fclean
 	make all

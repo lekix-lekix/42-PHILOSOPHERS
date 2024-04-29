@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/17 15:57:03 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/29 15:38:45 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,14 +56,12 @@ $(NAME_BONUS) : $(BONUS_OBJS)
 
 clean :
 	rm -f ./srcs/*o
-	rm -f ./philo_bonus/srcs/*o
 
 san: $(OBJ)
 	$(CC) $(FLAGS) -fsanitize=thread -g3 $(OBJ) -o $(NAME) 
 
 fclean : clean
 	rm -f $(NAME)
-	rm -f ./philo_bonus/$(NAME_BONUS)
 	
 re : fclean
 	make all
