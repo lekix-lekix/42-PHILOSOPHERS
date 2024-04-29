@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:10:57 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/26 17:04:53 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:32:17 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,32 +49,31 @@ int	init_all(t_philo *data, int argc, char **argv)
 	if (init_semaphores(data) == -1)
 		return (-1);
 	if (init_forking(data) == -1)
-    {
+	{
 		kill_all_processes(data);
-        free_stuff(data);
-        exit(0);
-    }
+		free_stuff(data);
+		exit(0);
+	}
 	return (0);
 }
 
-int wait_kill(t_philo *data)
+int	wait_kill(t_philo *data)
 {
-    pid_t monitors[2];
-    int pid_wait;
-    
-    run_monitors(data, monitors);
-    while (1)
+	pid_t	monitors[2];
+	int		pid_wait;
+
+	run_monitors(data, monitors);
+	while (1)
 	{
 		pid_wait = waitpid(-1, NULL, 0);
 		if (pid_wait > -1)
 			break ;
 		usleep(100);
 	}
+	sem_wait(data->locks->killing);
 	kill(monitors[0], SIGKILL);
 	kill(monitors[1], SIGKILL);
-	waitpid(monitors[0], NULL, 0);
-	waitpid(monitors[1], NULL, 0);
-    return (0);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -87,7 +86,7 @@ int	main(int argc, char **argv)
 	unlink_semaphores();
 	if (init_all(&data, argc, argv) == -1)
 		return (-1);
-    wait_kill(&data);
+	wait_kill(&data);
 	free_stuff(&data);
 	return (0);
 }

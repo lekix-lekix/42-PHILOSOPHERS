@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/25 17:38:39 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:54:55 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	start_philo_routine(t_philo *data, int philo_index)
 	finished_meals = 0;
 	last_meal = 0;
 	sem_wait(data->locks->deaths);
+	sem_wait(data->locks->killing);
+	sem_wait(data->locks->finished_meals);
 	if (data->total_philo_nb == 1)
 		return (solo_philo_routine(data));
 	if (is_even(philo_index))

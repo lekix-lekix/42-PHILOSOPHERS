@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:34:41 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/25 16:43:42 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:32:34 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	death_routine(t_philo *data, int philo_index)
 	printf("%ld %d died\n", get_time_elapsed(&data->starting_time),
 		philo_index);
 	sem_post(data->locks->deaths);
-	exit(-1);
+	free_stuff(data);
+	exit(0);
 }

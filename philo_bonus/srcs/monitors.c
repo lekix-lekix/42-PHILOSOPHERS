@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:25:00 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/26 17:13:51 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:32:24 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	kill_all_processes(t_philo *data)
 	i = -1;
 	while (++i < data->pids_created)
 		kill(data->philos_pids[i], SIGKILL);
+	sem_post(data->locks->killing);
 	return (0);
 }
 
@@ -30,6 +31,9 @@ int	monitor_philos_meals(t_philo *data)
 	while (++i < data->total_philo_nb)
 		sem_wait(data->locks->finished_meals);
 	kill_all_processes(data);
+	usleep(100);
+	free_stuff(data);
+	exit(0);
 	return (1);
 }
 
@@ -37,6 +41,9 @@ int	monitor_philos_deaths(t_philo *data)
 {
 	sem_wait(data->locks->deaths);
 	kill_all_processes(data);
+	usleep(100);
+	free_stuff(data);
+	exit(0);
 	return (1);
 }
 

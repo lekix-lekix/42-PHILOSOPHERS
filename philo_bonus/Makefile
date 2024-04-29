@@ -6,7 +6,7 @@
 #    By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 17:19:05 by kipouliq          #+#    #+#              #
-#    Updated: 2024/04/25 16:39:35 by kipouliq         ###   ########.fr        #
+#    Updated: 2024/04/29 12:14:20 by kipouliq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ clean :
 	rm -f ./srcs/*o
 
 san: $(OBJ)
-	$(CC) $(FLAGS) -fsanitize=thread -g3 $(OBJ) -o $(NAME) 
+	$(CC) $(FLAGS) -fsanitize=address -g3 $(OBJ) -o $(NAME) 
 
 fclean : clean
 	rm -f $(NAME)

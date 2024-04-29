@@ -6,7 +6,7 @@
 /*   By: kipouliq <kipouliq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:55:25 by kipouliq          #+#    #+#             */
-/*   Updated: 2024/04/26 16:48:07 by kipouliq         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:28:51 by kipouliq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct sem
 	sem_t				*finished_meals;
 	sem_t				*deaths;
 	sem_t				*write;
+	sem_t				*killing;
 }						t_sem;
 
 typedef struct philo
@@ -56,7 +57,7 @@ typedef struct philo
 	int					time_to_think;
 	int					nb_of_meals;
 	int					death_or_finished;
-    int                 pids_created;
+	int					pids_created;
 }						t_philo;
 
 int						check_args(char **argv);
@@ -65,6 +66,7 @@ int						ft_strlenn(char *str);
 int						is_digit(char c);
 
 int						unlink_semaphores(void);
+int						close_semaphores(t_sem *locks);
 int						init_semaphores(t_philo *data);
 int						init_forking(t_philo *data);
 int						run_monitors(t_philo *data, pid_t *monitors);
